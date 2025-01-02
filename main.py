@@ -74,7 +74,7 @@ def virtual_keyboard():
                                             2)
                                 if button.text == "Del":
                                     output = output[:-1]  # up to & not include last element ~ remove last element
-                                else:
+                                elif len(output) < 42:
                                     output += button.text
                                 sleep(0.09)
 
@@ -84,23 +84,39 @@ def virtual_keyboard():
                       (1190, 650),
                       (255, 144, 51),
                       cv2.FILLED)
-        # if len(output) <= 21:
-        cv2.putText(frame,
-                    output,
-                    (110, 570),
-                    cv2.FONT_HERSHEY_PLAIN,
-                    5,
-                    (255, 255, 255),
-                    5)
-        # else:
-        #     i = len(output) % 21
-        #     cv2.putText(frame,
-        #                 output,
-        #                 (110, 570 + i * 55),
-        #                 cv2.FONT_HERSHEY_PLAIN,
-        #                 5,
-        #                 (255, 255, 255),
-        #                 5)
+        if len(output) <= 21:
+            cv2.putText(frame,
+                        output,
+                        (110, 570),
+                        cv2.FONT_HERSHEY_PLAIN,
+                        5,
+                        (255, 255, 255),
+                        5)
+        else:
+            cv2.putText(frame,
+                        output[:21],
+                        (110, 570),
+                        cv2.FONT_HERSHEY_PLAIN,
+                        5,
+                        (255, 255, 255),
+                        5)
+            cv2.putText(frame,
+                        output[21:],
+                        (110, 640),
+                        cv2.FONT_HERSHEY_PLAIN,
+                        5,
+                        (255, 255, 255),
+                        5)
+        if len(output) >= 42:
+            cv2.putText(frame,
+                        'Buffer full, please clear inputs',
+                        (10, 65),
+                        cv2.FONT_HERSHEY_SIMPLEX,
+                        1.0,
+                        (49, 49, 245),
+                        2,
+                        cv2.LINE_AA
+                        )
 
         cv2.putText(frame,
                     'Pinch to select | Press "Q" to quit',
